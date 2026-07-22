@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SistemaGestionAcademica.API/SistemaGestionAcademica.API.csproj" />
+  <Project Path="SistemaGestionAcademica.Web/SistemaGestionAcademica.Web.csproj" />
+</Solution>
