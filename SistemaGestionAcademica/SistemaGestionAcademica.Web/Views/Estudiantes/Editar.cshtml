@@ -1,0 +1,90 @@
+﻿@model SistemaGestionAcademica.Web.Models.Estudiante
+
+@{
+    ViewData["Title"] = "Editar Estudiante";
+}
+
+<h2 class="mb-4">Editar Estudiante</h2>
+
+<form asp-action="Editar">
+
+    <input asp-for="IdEstudiante" hidden />
+
+    <input asp-for="IdUsuario" hidden />
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger mb-3"></div>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Nombre"></label>
+            <input asp-for="Nombre" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="PrimerApellido"></label>
+            <input asp-for="PrimerApellido" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="SegundoApellido"></label>
+            <input asp-for="SegundoApellido" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Identificacion"></label>
+            <input asp-for="Identificacion" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Correo"></label>
+            <input asp-for="Correo" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Telefono"></label>
+            <input asp-for="Telefono" class="form-control" />
+        </div>
+
+        <div class="col-12 mb-3">
+            <label asp-for="Direccion"></label>
+            <textarea asp-for="Direccion"
+                      class="form-control"></textarea>
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <label asp-for="Estado"></label>
+
+            <select asp-for="Estado"
+                    class="form-select">
+
+                <option value="true">Activo</option>
+
+                <option value="false">Inactivo</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <button class="btn btn-success">
+        Actualizar
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

@@ -4,135 +4,172 @@
     ViewData["Title"] = "Usuarios";
 }
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"></button>
+
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"></button>
+
+        </div>
+    }
 
     <div class="d-flex justify-content-between align-items-center mb-4">
+
         <div>
-            <h2 class="fw-bold mb-1">Administración de usuarios</h2>
-            <p class="text-muted mb-0">
-                Consulta y administra los usuarios registrados en el sistema.
-            </p>
+
+            <h2 class="fw-bold">
+
+                Gestión de Usuarios
+
+            </h2>
+
+            <small class="text-muted">
+
+                Administración de los usuarios del sistema.
+
+            </small>
+
         </div>
 
-        <a asp-controller="Usuarios"
-           asp-action="Registrar"
+        <a asp-action="Registrar"
            class="btn btn-primary">
-            <i class="bi bi-person-plus-fill me-1"></i>
-            Nuevo usuario
+
+            + Nuevo Usuario
+
         </a>
+
     </div>
 
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-white py-3">
-            <h5 class="mb-0 fw-semibold">
-                Lista de usuarios
-            </h5>
-        </div>
+    <div class="card shadow">
 
-        <div class="card-body p-0">
+        <div class="card-body">
 
-            @if (Model == null || !Model.Any())
-            {
-                <div class="text-center py-5">
-                    <i class="bi bi-people fs-1 text-muted"></i>
+            <table class="table table-hover align-middle">
 
-                    <h5 class="mt-3">
-                        No hay usuarios registrados
-                    </h5>
+                <thead class="table-dark">
 
-                    <p class="text-muted">
-                        Registra el primer usuario del sistema.
-                    </p>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="ps-4">ID</th>
-                                <th>Correo</th>
-                                <th>Rol</th>
-                                <th>Estado</th>
-                                <th>Fecha de registro</th>
-                                <th class="text-center">Acciones</th>
-                            </tr>
-                        </thead>
+                    <tr>
 
-                        <tbody>
-                            @foreach (var usuario in Model)
-                            {
-                                <tr>
-                                    <td class="ps-4">
-                                        @usuario.IdUsuario
-                                    </td>
+                        <th>ID</th>
 
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="rounded-circle bg-primary-subtle text-primary d-flex justify-content-center align-items-center me-3"
-                                                 style="width: 40px; height: 40px;">
-                                                <i class="bi bi-person-fill"></i>
-                                            </div>
+                        <th>Correo</th>
 
-                                            <div>
-                                                <span class="fw-semibold">
-                                                    @usuario.Correo
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </td>
+                        <th>Rol</th>
 
-                                    <td>
-                                        <span class="badge bg-secondary-subtle text-secondary">
-                                            @usuario.NombreRol
-                                        </span>
-                                    </td>
+                        <th>Estado</th>
 
-                                    <td>
-                                        @if (usuario.Estado)
-                                        {
-                                            <span class="badge bg-success-subtle text-success">
-                                                Activo
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-danger-subtle text-danger">
-                                                Inactivo
-                                            </span>
-                                        }
-                                    </td>
+                        <th>Fecha Registro</th>
 
-                                    <td>
-                                        @usuario.FechaRegistro.ToString("dd/MM/yyyy")
-                                    </td>
+                        <th width="180">
 
-                                    <td class="text-center">
-                                        <a asp-controller="Usuarios"
-                                           asp-action="Editar"
-                                           asp-route-id="@usuario.IdUsuario"
-                                           class="btn btn-sm btn-outline-primary me-1">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
+                            Acciones
 
-                                        @if (usuario.Estado)
-                                        {
-                                            <a asp-controller="Usuarios"
-                                               asp-action="Eliminar"
-                                               asp-route-id="@usuario.IdUsuario"
-                                               class="btn btn-sm btn-outline-danger">
-                                                <i class="bi bi-person-x-fill"></i>
-                                            </a>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+
+                                @item.IdUsuario
+
+                            </td>
+
+                            <td>
+
+                                @item.Correo
+
+                            </td>
+
+                            <td>
+
+                                @item.NombreRol
+
+                            </td>
+
+                            <td>
+
+                                @if (item.Estado)
+                                {
+                                    <span class="badge bg-success">
+
+                                        Activo
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">
+
+                                        Inactivo
+
+                                    </span>
+                                }
+
+                            </td>
+
+                            <td>
+
+                                @item.FechaRegistro.ToString("dd/MM/yyyy")
+
+                            </td>
+
+                            <td>
+
+                                <a asp-action="Editar"
+                                   asp-route-id="@item.IdUsuario"
+                                   class="btn btn-warning btn-sm">
+
+                                    Editar
+
+                                </a>
+
+                                <a asp-action="Eliminar"
+                                   asp-route-id="@item.IdUsuario"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('¿Desea desactivar este usuario?');">
+
+                                    Eliminar
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
 
         </div>
+
     </div>
+
 </div>
