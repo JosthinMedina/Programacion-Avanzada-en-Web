@@ -1,10 +1,10 @@
-﻿@model SistemaGestionAcademica.Web.Models.Estudiante
+﻿@model SistemaGestionAcademica.Web.Models.Profesor
 
 @{
-    ViewData["Title"] = "Registrar Estudiante";
+    ViewData["Title"] = "Editar Profesor";
 }
 
-<h2 class="mb-4">Registrar Estudiante</h2>
+<h2 class="mb-4">Editar Profesor</h2>
 
 @if (ViewBag.Error != null)
 {
@@ -13,9 +13,13 @@
     </div>
 }
 
-<form asp-action="Registrar" method="post">
+<form asp-action="Editar">
 
-    @Html.AntiForgeryToken()
+    <input asp-for="IdProfesor"
+           type="hidden" />
+
+    <input asp-for="FechaRegistro"
+           type="hidden" />
 
     <div asp-validation-summary="ModelOnly"
          class="text-danger mb-3">
@@ -23,128 +27,88 @@
 
     <div class="row">
 
-        <div class="col-md-12 mb-3">
-
-            <label asp-for="IdUsuario"
-                   class="form-label">
-            </label>
-
-            <select asp-for="IdUsuario"
-                    asp-items="ViewBag.Usuarios"
-                    class="form-select">
-
-                <option value="">
-                    Seleccione un usuario
-                </option>
-
-            </select>
-
+        <div class="col-md-6 mb-3">
+            <label asp-for="IdUsuario"></label>
+            <input asp-for="IdUsuario"
+                   class="form-control"
+                   type="number" />
             <span asp-validation-for="IdUsuario"
                   class="text-danger">
             </span>
-
         </div>
 
         <div class="col-md-6 mb-3">
-
-            <label asp-for="Nombre"
-                   class="form-label">
-            </label>
-
+            <label asp-for="Nombre"></label>
             <input asp-for="Nombre"
                    class="form-control" />
-
             <span asp-validation-for="Nombre"
                   class="text-danger">
             </span>
-
         </div>
 
         <div class="col-md-6 mb-3">
-
-            <label asp-for="PrimerApellido"
-                   class="form-label">
-            </label>
-
+            <label asp-for="PrimerApellido"></label>
             <input asp-for="PrimerApellido"
                    class="form-control" />
-
             <span asp-validation-for="PrimerApellido"
                   class="text-danger">
             </span>
-
         </div>
 
         <div class="col-md-6 mb-3">
-
-            <label asp-for="SegundoApellido"
-                   class="form-label">
-            </label>
-
+            <label asp-for="SegundoApellido"></label>
             <input asp-for="SegundoApellido"
                    class="form-control" />
-
         </div>
 
         <div class="col-md-6 mb-3">
-
-            <label asp-for="Identificacion"
-                   class="form-label">
-            </label>
-
+            <label asp-for="Identificacion"></label>
             <input asp-for="Identificacion"
                    class="form-control" />
-
             <span asp-validation-for="Identificacion"
                   class="text-danger">
             </span>
-
         </div>
 
         <div class="col-md-6 mb-3">
-
-            <label asp-for="Correo"
-                   class="form-label">
-            </label>
-
+            <label asp-for="Correo"></label>
             <input asp-for="Correo"
                    class="form-control" />
-
             <span asp-validation-for="Correo"
                   class="text-danger">
             </span>
-
         </div>
 
         <div class="col-md-6 mb-3">
-
-            <label asp-for="Telefono"
-                   class="form-label">
-            </label>
-
+            <label asp-for="Telefono"></label>
             <input asp-for="Telefono"
                    class="form-control" />
-
         </div>
 
-        <div class="col-12 mb-3">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Especialidad"></label>
+            <input asp-for="Especialidad"
+                   class="form-control" />
+            <span asp-validation-for="Especialidad"
+                  class="text-danger">
+            </span>
+        </div>
 
-            <label asp-for="Direccion"
-                   class="form-label">
-            </label>
+        <div class="col-md-4 mb-3">
+            <label asp-for="Estado"></label>
 
-            <textarea asp-for="Direccion"
-                      class="form-control"
-                      rows="3">
-            </textarea>
-
+            <select asp-for="Estado"
+                    class="form-select">
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+            </select>
         </div>
 
     </div>
 
     <button type="submit"
             class="btn btn-success">
-        Guardar
+        Guardar Cambios
     </button>
 
     <a asp-action="Index"

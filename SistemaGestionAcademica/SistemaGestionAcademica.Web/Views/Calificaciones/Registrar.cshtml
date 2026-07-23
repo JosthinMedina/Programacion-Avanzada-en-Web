@@ -1,0 +1,121 @@
+﻿@model SistemaGestionAcademica.Web.Models.Calificacion
+
+@{
+    ViewData["Title"] = "Registrar Calificación";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h4 class="mb-0">
+                        Registrar Calificación
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-action="Registrar"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="IdMatricula"
+                                   class="form-label">
+                            </label>
+
+                            <select asp-for="IdMatricula"
+                                    asp-items="ViewBag.Matriculas"
+                                    class="form-select">
+
+                                <option value="">
+                                    Seleccione una matrícula
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="IdMatricula"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Nota"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Nota"
+                                   type="number"
+                                   min="0"
+                                   max="100"
+                                   step="0.01"
+                                   class="form-control" />
+
+                            <span asp-validation-for="Nota"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="d-grid gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                <i class="bi bi-save me-1"></i>
+
+                                Registrar Calificación
+
+                            </button>
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+
+                                Cancelar
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial"
+        );
+    }
+}

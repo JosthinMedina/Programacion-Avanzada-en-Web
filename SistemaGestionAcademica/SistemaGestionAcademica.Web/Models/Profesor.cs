@@ -2,12 +2,11 @@
 
 namespace SistemaGestionAcademica.Web.Models
 {
-    public class Estudiante
+    public class Profesor
     {
-        public int IdEstudiante { get; set; }
+        public int IdProfesor { get; set; }
 
-        [Required(ErrorMessage = "Debe seleccionar un usuario.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar un usuario.")]
+        [Required]
         [Display(Name = "Usuario")]
         public int IdUsuario { get; set; }
 
@@ -15,11 +14,14 @@ namespace SistemaGestionAcademica.Web.Models
         public string Nombre { get; set; } = string.Empty;
 
         [Required]
+        [Display(Name = "Primer Apellido")]
         public string PrimerApellido { get; set; } = string.Empty;
 
+        [Display(Name = "Segundo Apellido")]
         public string? SegundoApellido { get; set; }
 
         [Required]
+        [Display(Name = "Identificación")]
         public string Identificacion { get; set; } = string.Empty;
 
         [Required]
@@ -28,8 +30,11 @@ namespace SistemaGestionAcademica.Web.Models
 
         public string? Telefono { get; set; }
 
-        public string? Direccion { get; set; }
+        [Required]
+        public string Especialidad { get; set; } = string.Empty;
 
         public bool Estado { get; set; }
+
+        public DateTime FechaRegistro { get; set; }
     }
 }

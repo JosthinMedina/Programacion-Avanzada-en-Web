@@ -1,0 +1,159 @@
+﻿@model SistemaGestionAcademica.Web.Models.Notificacion
+
+@{
+    ViewData["Title"] = "Registrar Notificación";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h4 class="mb-0">
+
+                        <i class="bi bi-bell-fill me-2"></i>
+
+                        Registrar Notificación
+
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-action="Registrar"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="IdUsuario"
+                                   class="form-label">
+                            </label>
+
+                            <select asp-for="IdUsuario"
+                                    asp-items="ViewBag.Usuarios"
+                                    class="form-select">
+
+                                <option value="">
+                                    Seleccione un usuario
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="IdUsuario"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Asunto"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Asunto"
+                                   class="form-control"
+                                   placeholder="Ingrese el asunto" />
+
+                            <span asp-validation-for="Asunto"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Mensaje"
+                                   class="form-label">
+                            </label>
+
+                            <textarea asp-for="Mensaje"
+                                      class="form-control"
+                                      rows="6"
+                                      placeholder="Ingrese el mensaje de la notificación">
+                            </textarea>
+
+                            <span asp-validation-for="Mensaje"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="FechaEnvio"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="FechaEnvio"
+                                   type="datetime-local"
+                                   class="form-control" />
+
+                            <span asp-validation-for="FechaEnvio"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <input asp-for="EstadoEnvio"
+                               type="hidden" />
+
+                        <div class="d-grid gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                <i class="bi bi-save me-1"></i>
+
+                                Registrar Notificación
+
+                            </button>
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+
+                                Cancelar
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial"
+        );
+    }
+}

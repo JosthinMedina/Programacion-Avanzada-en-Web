@@ -1,0 +1,204 @@
+﻿@model IEnumerable<SistemaGestionAcademica.Web.Models.Evento>
+
+@using SistemaGestionAcademica.Web.Models
+
+@{
+    ViewData["Title"] = "Eventos";
+
+    var cursos =
+        ViewBag.Cursos as List<Curso>
+        ?? new List<Curso>();
+}
+
+<div class="container-fluid mt-4">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Gestión de Eventos
+            </h2>
+
+            <small class="text-muted">
+                Administración de eventos académicos.
+            </small>
+
+        </div>
+
+        <a asp-action="Registrar"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-circle me-1"></i>
+
+            Nuevo Evento
+
+        </a>
+
+    </div>
+
+    <div class="card shadow border-0">
+
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info mb-0">
+                    No hay eventos registrados.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-dark">
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Curso</th>
+                                <th>Título</th>
+                                <th>Descripción</th>
+                                <th>Inicio</th>
+                                <th>Finalización</th>
+                                <th>Estado</th>
+                                <th width="190">Acciones</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                var curso = cursos.FirstOrDefault(
+                                    x => x.IdCurso == item.IdCurso
+                                );
+
+                                <tr>
+
+                                    <td>
+                                        @item.IdEvento
+                                    </td>
+
+                                    <td>
+
+                                        @if (curso != null)
+                                        {
+                                            @curso.NombreCurso
+                                        }
+                                        else
+                                        {
+                                            <span>
+                                                Curso #@item.IdCurso
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+                                        @item.Titulo
+                                    </td>
+
+                                    <td>
+                                        @item.Descripcion
+                                    </td>
+
+                                    <td>
+                                        @item.FechaInicio.ToString(
+                                            "dd/MM/yyyy hh:mm tt"
+                                        )
+                                    </td>
+
+                                    <td>
+                                        @item.FechaFin.ToString(
+                                            "dd/MM/yyyy hh:mm tt"
+                                        )
+                                    </td>
+
+                                    <td>
+
+                                        @if (item.Estado)
+                                        {
+                                            <span class="badge bg-success">
+                                                Activo
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">
+                                                Inactivo
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        <a asp-action="Editar"
+                                           asp-route-id="@item.IdEvento"
+                                           class="btn btn-warning btn-sm">
+
+                                            <i class="bi bi-pencil-square"></i>
+
+                                            Editar
+
+                                        </a>
+
+                                        <a asp-action="Eliminar"
+                                           asp-route-id="@item.IdEvento"
+                                           class="btn btn-danger btn-sm"
+                                           onclick="return confirm('¿Desea eliminar este evento?')">
+
+                                            <i class="bi bi-trash"></i>
+
+                                            Eliminar
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

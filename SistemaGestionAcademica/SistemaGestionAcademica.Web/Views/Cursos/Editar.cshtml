@@ -1,0 +1,137 @@
+﻿@model SistemaGestionAcademica.Web.Models.Curso
+
+@{
+    ViewData["Title"] = "Editar Curso";
+}
+
+<h2 class="mb-4">
+    Editar Curso
+</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+<form asp-action="Editar"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input asp-for="IdCurso"
+           type="hidden" />
+
+    <input asp-for="FechaRegistro"
+           type="hidden" />
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger mb-3">
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+
+            <label asp-for="IdProfesor"
+                   class="form-label">
+            </label>
+
+            <select asp-for="IdProfesor"
+                    asp-items="ViewBag.Profesores"
+                    class="form-select">
+
+                <option value="">
+                    Seleccione un profesor
+                </option>
+
+            </select>
+
+            <span asp-validation-for="IdProfesor"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <div class="col-md-6 mb-3">
+
+            <label asp-for="NombreCurso"
+                   class="form-label">
+            </label>
+
+            <input asp-for="NombreCurso"
+                   class="form-control" />
+
+            <span asp-validation-for="NombreCurso"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <div class="col-12 mb-3">
+
+            <label asp-for="Descripcion"
+                   class="form-label">
+            </label>
+
+            <textarea asp-for="Descripcion"
+                      class="form-control"
+                      rows="4">
+            </textarea>
+
+            <span asp-validation-for="Descripcion"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <label asp-for="Estado"
+                   class="form-label">
+            </label>
+
+            <select asp-for="Estado"
+                    class="form-select">
+
+                <option value="true">
+                    Activo
+                </option>
+
+                <option value="false">
+                    Inactivo
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-success">
+
+        <i class="bi bi-save me-1"></i>
+
+        Guardar Cambios
+
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+
+        Cancelar
+
+    </a>
+
+</form>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial"
+        );
+    }
+}

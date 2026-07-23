@@ -1,0 +1,167 @@
+﻿@model SistemaGestionAcademica.Web.Models.Asistencia
+
+@{
+    ViewData["Title"] = "Editar Asistencia";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-warning">
+
+                    <h4 class="mb-0">
+                        Editar Asistencia
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-action="Editar"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input asp-for="IdAsistencia"
+                               type="hidden" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="IdMatricula"
+                                   class="form-label">
+                            </label>
+
+                            <select asp-for="IdMatricula"
+                                    asp-items="ViewBag.Matriculas"
+                                    class="form-select">
+
+                                <option value="">
+                                    Seleccione una matrícula
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="IdMatricula"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Fecha"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Fecha"
+                                   type="date"
+                                   class="form-control" />
+
+                            <span asp-validation-for="Fecha"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Estado"
+                                   class="form-label">
+                            </label>
+
+                            <select asp-for="Estado"
+                                    class="form-select">
+
+                                <option value="Presente">
+                                    Presente
+                                </option>
+
+                                <option value="Ausente">
+                                    Ausente
+                                </option>
+
+                                <option value="Justificada">
+                                    Justificada
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="Estado"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Observacion"
+                                   class="form-label">
+                            </label>
+
+                            <textarea asp-for="Observacion"
+                                      class="form-control"
+                                      rows="4">
+                            </textarea>
+
+                            <span asp-validation-for="Observacion"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="d-grid gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-warning">
+
+                                <i class="bi bi-save me-1"></i>
+
+                                Actualizar Asistencia
+
+                            </button>
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+
+                                Cancelar
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial"
+        );
+    }
+}

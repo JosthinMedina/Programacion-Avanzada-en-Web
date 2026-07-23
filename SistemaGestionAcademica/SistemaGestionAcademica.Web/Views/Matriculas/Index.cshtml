@@ -1,0 +1,219 @@
+﻿@model IEnumerable<SistemaGestionAcademica.Web.Models.Matricula>
+
+@using SistemaGestionAcademica.Web.Models
+
+@{
+    ViewData["Title"] = "Matrículas";
+
+    var estudiantes =
+        ViewBag.Estudiantes as List<Estudiante>
+        ?? new List<Estudiante>();
+
+    var cursos =
+        ViewBag.Cursos as List<Curso>
+        ?? new List<Curso>();
+}
+
+<div class="container-fluid mt-4">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Gestión de Matrículas
+            </h2>
+
+            <small class="text-muted">
+                Administración de las matrículas de estudiantes.
+            </small>
+
+        </div>
+
+        <a asp-action="Registrar"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-circle me-1"></i>
+
+            Nueva Matrícula
+
+        </a>
+
+    </div>
+
+    <div class="card shadow border-0">
+
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info mb-0">
+                    No hay matrículas registradas.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-dark">
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Estudiante</th>
+                                <th>Curso</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th width="190">Acciones</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                var estudiante =
+                                    estudiantes.FirstOrDefault(
+                                        x => x.IdEstudiante ==
+                                             item.IdEstudiante
+                                    );
+
+                                var curso =
+                                    cursos.FirstOrDefault(
+                                        x => x.IdCurso ==
+                                             item.IdCurso
+                                    );
+
+                                <tr>
+
+                                    <td>
+                                        @item.IdMatricula
+                                    </td>
+
+                                    <td>
+
+                                        @if (estudiante != null)
+                                        {
+                                            <span>
+                                                @estudiante.Nombre
+                                                @estudiante.PrimerApellido
+                                                @estudiante.SegundoApellido
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>
+                                                Estudiante #@item.IdEstudiante
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        @if (curso != null)
+                                        {
+                                            @curso.NombreCurso
+                                        }
+                                        else
+                                        {
+                                            <span>
+                                                Curso #@item.IdCurso
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+                                        @item.FechaMatricula.ToString(
+                                            "dd/MM/yyyy"
+                                        )
+                                    </td>
+
+                                    <td>
+
+                                        @if (item.Estado)
+                                        {
+                                            <span class="badge bg-success">
+                                                Activa
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">
+                                                Inactiva
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        <a asp-action="Editar"
+                                           asp-route-id="@item.IdMatricula"
+                                           class="btn btn-warning btn-sm">
+
+                                            <i class="bi bi-pencil-square"></i>
+
+                                            Editar
+
+                                        </a>
+
+                                        <a asp-action="Eliminar"
+                                           asp-route-id="@item.IdMatricula"
+                                           class="btn btn-danger btn-sm"
+                                           onclick="return confirm('¿Desea desactivar esta matrícula?')">
+
+                                            <i class="bi bi-trash"></i>
+
+                                            Eliminar
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

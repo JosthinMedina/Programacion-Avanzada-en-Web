@@ -1,0 +1,178 @@
+﻿@model SistemaGestionAcademica.Web.Models.Notificacion
+
+@{
+    ViewData["Title"] = "Editar Notificación";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-warning">
+
+                    <h4 class="mb-0">
+
+                        <i class="bi bi-pencil-square me-2"></i>
+
+                        Editar Notificación
+
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-action="Editar"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input asp-for="IdNotificacion"
+                               type="hidden" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="IdUsuario"
+                                   class="form-label">
+                            </label>
+
+                            <select asp-for="IdUsuario"
+                                    asp-items="ViewBag.Usuarios"
+                                    class="form-select">
+
+                                <option value="">
+                                    Seleccione un usuario
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="IdUsuario"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Asunto"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Asunto"
+                                   class="form-control" />
+
+                            <span asp-validation-for="Asunto"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Mensaje"
+                                   class="form-label">
+                            </label>
+
+                            <textarea asp-for="Mensaje"
+                                      class="form-control"
+                                      rows="6">
+                            </textarea>
+
+                            <span asp-validation-for="Mensaje"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="FechaEnvio"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="FechaEnvio"
+                                   type="datetime-local"
+                                   class="form-control" />
+
+                            <span asp-validation-for="FechaEnvio"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="EstadoEnvio"
+                                   class="form-label">
+                            </label>
+
+                            <select asp-for="EstadoEnvio"
+                                    class="form-select">
+
+                                <option value="false">
+                                    Pendiente
+                                </option>
+
+                                <option value="true">
+                                    Enviada
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="d-grid gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-warning">
+
+                                <i class="bi bi-save me-1"></i>
+
+                                Actualizar Notificación
+
+                            </button>
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+
+                                Cancelar
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial"
+        );
+    }
+}

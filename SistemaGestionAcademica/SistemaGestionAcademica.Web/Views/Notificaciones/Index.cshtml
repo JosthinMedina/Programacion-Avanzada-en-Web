@@ -1,0 +1,221 @@
+﻿@model IEnumerable<SistemaGestionAcademica.Web.Models.Notificacion>
+
+@using SistemaGestionAcademica.Web.Models
+
+@{
+    ViewData["Title"] = "Notificaciones";
+
+    var usuarios =
+        ViewBag.Usuarios as List<Usuario>
+        ?? new List<Usuario>();
+}
+
+<div class="container-fluid mt-4">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Gestión de Notificaciones
+            </h2>
+
+            <small class="text-muted">
+                Administración de notificaciones académicas.
+            </small>
+
+        </div>
+
+        <a asp-action="Registrar"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-circle me-1"></i>
+
+            Nueva Notificación
+
+        </a>
+
+    </div>
+
+    <div class="card shadow border-0">
+
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info mb-0">
+                    No hay notificaciones registradas.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-dark">
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Correo</th>
+                                <th>Asunto</th>
+                                <th>Mensaje</th>
+                                <th>Fecha de envío</th>
+                                <th>Estado</th>
+                                <th width="190">Acciones</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                var usuario =
+                                    usuarios.FirstOrDefault(
+                                        x => x.IdUsuario ==
+                                             item.IdUsuario
+                                    );
+
+                                <tr>
+
+                                    <td>
+                                        @item.IdNotificacion
+                                    </td>
+
+                                    <td>
+                                        Usuario #@item.IdUsuario
+                                    </td>
+
+                                    <td>
+
+                                        @if (usuario != null)
+                                        {
+                                            @usuario.Correo
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                Sin información
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+                                        @item.Asunto
+                                    </td>
+
+                                    <td>
+
+                                        @if (item.Mensaje.Length > 80)
+                                        {
+                                            @($"{item.Mensaje.Substring(0, 80)}...")
+                                        }
+                                        else
+                                        {
+                                            @item.Mensaje
+                                        }
+
+                                    </td>
+
+                                    <td>
+                                        @item.FechaEnvio.ToString(
+                                            "dd/MM/yyyy hh:mm tt"
+                                        )
+                                    </td>
+
+                                    <td>
+
+                                        @if (item.EstadoEnvio)
+                                        {
+                                            <span class="badge bg-success">
+
+                                                <i class="bi bi-check-circle me-1"></i>
+
+                                                Enviada
+
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning text-dark">
+
+                                                <i class="bi bi-clock me-1"></i>
+
+                                                Pendiente
+
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        <a asp-action="Editar"
+                                           asp-route-id="@item.IdNotificacion"
+                                           class="btn btn-warning btn-sm">
+
+                                            <i class="bi bi-pencil-square"></i>
+
+                                            Editar
+
+                                        </a>
+
+                                        <a asp-action="Eliminar"
+                                           asp-route-id="@item.IdNotificacion"
+                                           class="btn btn-danger btn-sm"
+                                           onclick="return confirm('¿Desea eliminar esta notificación?')">
+
+                                            <i class="bi bi-trash"></i>
+
+                                            Eliminar
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

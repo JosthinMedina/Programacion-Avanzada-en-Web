@@ -15,8 +15,10 @@ namespace SistemaGestionAcademica.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var lista = await _http.GetFromJsonAsync<List<Estudiante>>("api/Estudiantes");
-            return View(lista);
+            var lista = await _http
+                .GetFromJsonAsync<List<Estudiante>>("Estudiantes");
+
+            return View(lista ?? new List<Estudiante>());
         }
 
         public IActionResult Registrar()
@@ -25,48 +27,102 @@ namespace SistemaGestionAcademica.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Registrar(Estudiante estudiante)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Registrar(
+            Estudiante estudiante)
         {
             if (!ModelState.IsValid)
+            {
                 return View(estudiante);
+            }
 
-            var respuesta = await _http.PostAsJsonAsync("api/Estudiantes", estudiante);
+            var respuesta = await _http.PostAsJsonAsync(
+                "Estudiantes",
+                estudiante
+            );
 
             if (respuesta.IsSuccessStatusCode)
-                return RedirectToAction(nameof(Index));
+            {
+                TempData["Success"] =
+                    "Estudiante registrado correctamente.";
 
-            ViewBag.Error = await respuesta.Content.ReadAsStringAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.Error =
+                await respuesta.Content.ReadAsStringAsync();
+
             return View(estudiante);
         }
 
         public async Task<IActionResult> Editar(int id)
         {
-            var estudiante = await _http.GetFromJsonAsync<Estudiante>($"api/Estudiantes/{id}");
+            var respuesta = await _http.GetAsync(
+                $"Estudiantes/{id}"
+            );
+
+            if (!respuesta.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var estudiante = await respuesta.Content
+                .ReadFromJsonAsync<Estudiante>();
 
             if (estudiante == null)
+            {
                 return RedirectToAction(nameof(Index));
+            }
 
             return View(estudiante);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Editar(Estudiante estudiante)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Editar(
+            Estudiante estudiante)
         {
             if (!ModelState.IsValid)
+            {
                 return View(estudiante);
+            }
 
-            var respuesta = await _http.PutAsJsonAsync("api/Estudiantes", estudiante);
+            var respuesta = await _http.PutAsJsonAsync(
+                "Estudiantes",
+                estudiante
+            );
 
             if (respuesta.IsSuccessStatusCode)
-                return RedirectToAction(nameof(Index));
+            {
+                TempData["Success"] =
+                    "Estudiante actualizado correctamente.";
 
-            ViewBag.Error = await respuesta.Content.ReadAsStringAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.Error =
+                await respuesta.Content.ReadAsStringAsync();
+
             return View(estudiante);
         }
 
         public async Task<IActionResult> Eliminar(int id)
         {
-            await _http.DeleteAsync($"api/Estudiantes/{id}");
+            var respuesta = await _http.DeleteAsync(
+                $"Estudiantes/{id}"
+            );
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                TempData["Success"] =
+                    "Estudiante eliminado correctamente.";
+            }
+            else
+            {
+                TempData["Error"] =
+                    await respuesta.Content.ReadAsStringAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
     }
