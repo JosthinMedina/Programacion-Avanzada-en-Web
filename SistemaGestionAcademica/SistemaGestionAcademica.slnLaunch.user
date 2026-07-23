@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": "SistemaGestionAcademica.API\\SistemaGestionAcademica.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "SistemaGestionAcademica.Web\\SistemaGestionAcademica.Web.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
